@@ -1,13 +1,121 @@
 import { Component } from '@angular/core';                                                                                                                                                                         
-                                            
+  import { MatChipsModule } from '@angular/material/chips';
+  import { CommonModule } from '@angular/common';                                                                                                                                                                    
+                                              
   @Component({                                                                                                                                                                                                       
     selector: 'app-badges',                                                                                                                                                                                          
-    standalone: true,      
+    standalone: true,                                                                                                                                                                                                
+    imports: [CommonModule, MatChipsModule],                                                                                                                                                                         
     template: `                                                                                                                                                                                                      
-      <div class="animate-fade-in">                                                                                                                                                                                  
-        <h1 class="text-2xl font-bold text-primary mb-1">Badges & Chips</h1>                                                                                                                                         
-        <p class="text-muted text-sm">Badges coming soon.</p>                                                                                                                                                        
+      <div class="space-y-6 animate-fade-in">                                                                                                                                                                        
+        <div>                                                                                                                                                                                                        
+          <h1 class="text-2xl font-bold text-primary">Badges & Chips</h1>                                                                                                                                            
+          <p class="text-muted text-sm mt-1">Status indicators, labels, and tags</p>                                                                                                                                 
+        </div>                                                                                                                                                                                                       
+                                                                                                                                                                                                                     
+        <!-- Status Badges -->                                                                                                                                                                                       
+        <div class="card">                                                                                                                                                                                           
+          <h3 class="font-semibold text-primary mb-4">Status Badges</h3>                                                                                                                                             
+          <div class="flex flex-wrap gap-3">                                                                                                                                                                         
+            <span class="badge badge-success">Active</span>                                                                                                                                                          
+            <span class="badge badge-danger">Inactive</span>                                                                                                                                                         
+            <span class="badge badge-warning">Pending</span>                                                                                                                                                         
+            <span class="badge badge-info">Processing</span>                                                                                                                                                         
+            <span class="badge badge-accent">New</span>                                                                                                                                                              
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-elevated text-muted border border-border">Default</span>                                                                                  
+          </div>                                                                                                                                                                                                     
+        </div>                                                                                                                                                                                                       
+                                                                                                                                                                                                                     
+        <!-- Dot badges -->                                                                                                                                                                                          
+        <div class="card">                                                                                                                                                                                           
+          <h3 class="font-semibold text-primary mb-4">With Dot Indicator</h3>                                                                                                                                        
+          <div class="flex flex-wrap gap-3">  
+            @for (b of dotBadges; track b.label) {
+              <span class="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border"
+                [style.background]="b.bg" [style.color]="b.text" [style.border-color]="b.border">                                                                                                                    
+                <span class="w-1.5 h-1.5 rounded-full" [style.background]="b.dot"></span>                                                                                                                            
+                {{ b.label }}
+                </span>                                                                                                                                                                                                
+            }                                                                                                                                                                                                        
+          </div>                                                                                                                                                                                                     
+        </div>                                                                                                                                                                                                       
+                                                                                                                                                                                                                     
+        <!-- Sizes -->                                                                                                                                                                                               
+        <div class="card">                
+          <h3 class="font-semibold text-primary mb-4">Sizes</h3>                                                                                                                                                     
+          <div class="flex flex-wrap items-center gap-3">                                                                                                                                                            
+            <span class="px-1.5 py-0.5 rounded text-[10px] font-medium bg-accent-100 text-accent-700">XS</span>                                                                                                      
+            <span class="badge badge-accent text-xs">Small</span>                                                                                                                                                    
+            <span class="px-3 py-1 rounded-full text-sm font-medium bg-accent-100 text-accent-700">Medium</span>                                                                                                     
+            <span class="px-4 py-1.5 rounded-full text-base font-medium bg-accent-100 text-accent-700">Large</span>                                                                                                  
+          </div>                                                                                                                                                                                                     
+        </div>                                                                                                                                                                                                       
+                                                                                                                                                                                                                     
+        <!-- Material Chips -->                                                                                                                                                                                      
+        <div class="card">                                                                                                                                                                                           
+          <h3 class="font-semibold text-primary mb-4">Chips (selectable)</h3>                                                                                                                                        
+          <div class="space-y-3">                                                                                                                                                                                    
+            <mat-chip-listbox multiple>                                                                                                                                                                              
+              @for (chip of selectableChips; track chip.label) {                                                                                                                                                     
+                <mat-chip-option [selected]="chip.selected" color="primary">                                                                                                                                         
+                  {{ chip.label }}                                                                                                                                                                                   
+                </mat-chip-option>                                                                                                                                                                                   
+              }                                                                                                                                                                                                      
+            </mat-chip-listbox>                                                                                                                                                                                      
+          </div>                                                                                                                                                                                                     
+        </div>                                                                                                                                                                                                       
+                                                                                                                                                                                                                     
+        <!-- Notification badges -->                                                                                                                                                                                 
+        <div class="card">                                                                                                                                                                                           
+          <h3 class="font-semibold text-primary mb-4">Notification Badges</h3>
+          <div class="flex flex-wrap gap-6">                                                                                                                                                                         
+            @for (item of notifItems; track item.label) {
+              <div class="flex flex-col items-center gap-2">                                                                                                                                                         
+                <div class="relative">                                                                                                                                                                               
+                  <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl bg-elevated">                                                                                                            
+                    {{ item.icon }}                                                                                                                                                                                  
+                  </div>                                                                                                                                                                                             
+                  @if (item.count > 0) {                                                                                                                                                                             
+                    <span class="absolute -top-1.5 -right-1.5 min-w-[20px] h-5 px-1                                                                                                                                  
+                                 bg-red-500 text-white rounded-full text-xs flex items-center                                                                                                                        
+                                 justify-center font-bold leading-none">                                                                                                                                             
+                      {{ item.count > 99 ? '99+' : item.count }}                                                                                                                                                     
+                    </span>                                                                                                                                                                                          
+                  }                                                                                                                                                                                                  
+                </div>                                                                                                                                                                                               
+                <span class="text-xs text-muted">{{ item.label }}</span>                                                                                                                                             
+              </div>                                                                                                                                                                                                 
+            }                                                                                                                                                                                                        
+          </div>                                                                                                                                                                                                     
+        </div>                                                                                                                                                                                                       
+                                                                                                                                                                                                                     
       </div>                                                                                                                                                                                                         
     `,                                                                                                                                                                                                               
   })                                                                                                                                                                                                                 
-  export default class BadgesComponent {}
+  export default class BadgesComponent {                                                                                                                                                                             
+    dotBadges = [                                                                                                                                                                                                    
+      { label: 'Online',     dot: '#22c55e', bg: '#dcfce7', text: '#15803d', border: '#bbf7d0' },                                                                                                                    
+      { label: 'Away',       dot: '#f59e0b', bg: '#fef9c3', text: '#854d0e', border: '#fde68a' },                                                                                                                    
+      { label: 'Busy',       dot: '#ef4444', bg: '#fee2e2', text: '#b91c1c', border: '#fca5a5' },                                                                                                                    
+      { label: 'Offline',    dot: '#94a3b8', bg: '#f1f5f9', text: '#64748b', border: '#e2e8f0' },                                                                                                                    
+      { label: 'In Meeting', dot: '#8b5cf6', bg: '#f5f3ff', text: '#6d28d9', border: '#ddd6fe' },                                                                                                                    
+    ];                                                                                                                                                                                                               
+                                                                                                                                                                                                                     
+    selectableChips = [{ label: 'Angular',    selected: true  },                                                                                                                                                                      
+      { label: 'React',      selected: false },                                                                                                                                                                      
+      { label: 'Vue',        selected: false },                                                                                                                                                                      
+      { label: 'TypeScript', selected: true  },                                                                                                                                                                      
+      { label: 'Node.js',    selected: false },                                                                                                                                                                      
+      { label: 'Python',     selected: false },                                                                                                                                                                      
+      { label: 'Go',         selected: false },                                                                                                                                                                      
+      { label: 'Rust',       selected: false },                                                                                                                                                                      
+    ];                                                                                                                                                                                                               
+                                                                                                                                                                                                                     
+    notifItems = [                                                                                                                                                                                                   
+      { icon: '🔔', label: 'Alerts',   count: 5  },                                                                                                                                                                  
+      { icon: '💬', label: 'Messages', count: 12 },                                                                                                                                                                  
+      { icon: '📧', label: 'Email',    count: 99 },                                                                                                                                                                  
+      { icon: '🛒', label: 'Cart',     count: 3  },                                                                                                                                                                  
+      { icon: '❤️ ', label: 'Likes',   count: 0  },                                                                                                                                                                   
+    ];                                                                                                                                                                                                               
+  }

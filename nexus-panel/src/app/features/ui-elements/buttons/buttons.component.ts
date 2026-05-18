@@ -1,13 +1,143 @@
 import { Component } from '@angular/core';                                                                                                                                                                         
-                                            
+  import { MatButtonModule } from '@angular/material/button';
+  import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';                                                                                                                                     
+  import { CommonModule } from '@angular/common';                                                                                                                                                                    
+  import { signal } from '@angular/core';                                                                                                                                                                            
+                                                                                                                                                                                                                     
   @Component({                                                                                                                                                                                                       
     selector: 'app-buttons',                                                                                                                                                                                         
-    standalone: true,       
+    standalone: true,                                                                                                                                                                                                
+    imports: [CommonModule, MatButtonModule, MatProgressSpinnerModule],                                                                                                                                              
     template: `                                                                                                                                                                                                      
-      <div class="animate-fade-in">
-        <h1 class="text-2xl font-bold text-primary mb-1">Buttons</h1>                                                                                                                                                
-        <p class="text-muted text-sm">Buttons coming soon.</p>       
+      <div class="space-y-6 animate-fade-in">                                                                                                                                                                        
+        <div>                                                                                                                                                                                                        
+          <h1 class="text-2xl font-bold text-primary">Buttons</h1>                                                                                                                                                   
+          <p class="text-muted text-sm mt-1">All button variants, sizes, and states</p>                                                                                                                              
+        </div>                                                                                                                                                                                                       
+                                                                                                                                                                                                                     
+        <!-- Variants -->                                                                                                                                                                                            
+        <div class="card">                                                                                                                                                                                           
+          <h3 class="font-semibold text-primary mb-4">Variants</h3>                                                                                                                                                  
+          <div class="flex flex-wrap gap-3">                                                                                                                                                                         
+            <button mat-flat-button   class="!bg-accent-600 !text-white">Filled</button>
+            <button mat-stroked-button class="!border-accent-600 !text-accent-600">Outlined</button>                                                                                                                 
+            <button mat-button         class="!text-accent-600">Text</button>                                                                                                                                        
+            <button mat-raised-button  class="!bg-accent-600 !text-white">Elevated</button>                                                                                                                          
+            <button mat-fab            class="!bg-accent-600 !text-white !w-10 !h-10 !min-w-0">+</button>                                                                                                            
+            <button mat-mini-fab       class="!bg-accent-600 !text-white">★</button>                                                                                                                                 
+          </div>                                                                                                                                                                                                     
+        </div>                                                                                                                                                                                                       
+                                                                                                                                                                                                                     
+        <!-- Colors -->                                                                                                                                                                                              
+        <div class="card">                                                                                                                                                                                           
+          <h3 class="font-semibold text-primary mb-4">Semantic Colors</h3>                                                                                                                                           
+          <div class="flex flex-wrap gap-3">
+            <button class="btn btn-primary">Primary</button>
+            <button class="btn btn-success">Success</button>                                                                                                                                                         
+            <button class="btn btn-warning">Warning</button>                                                                                                                                                         
+            <button class="btn btn-danger">Danger</button>                                                                                                                                                           
+            <button class="btn btn-info">Info</button>                                                                                                                                                               
+            <button class="btn btn-ghost">Ghost</button>                                                                                                                                                             
+            <button class="btn btn-outline-primary">Outline Primary</button>                                                                                                                                         
+            <button class="btn btn-outline-danger">Outline Danger</button>                                                                                                                                           
+          </div>                                                                                                                                                                                                     
+        </div>                                                                                                                                                                                                       
+                                                                                                                                                                                                                     
+        <!-- Sizes -->                                                                                                                                                                                               
+        <div class="card">                                                                                                                                                                                           
+          <h3 class="font-semibold text-primary mb-4">Sizes</h3>                                                                                                                                                     
+          <div class="flex flex-wrap items-center gap-3">                                                                                                                                                            
+            <button class="btn btn-primary !text-xs !px-2.5 !py-1">Extra Small</button>                                                                                                                              
+            <button class="btn btn-primary !text-sm !px-3 !py-1.5">Small</button>                                                                                                                                    
+            <button class="btn btn-primary">Medium (default)</button>                                                                                                                                                
+            <button class="btn btn-primary !text-base !px-5 !py-2.5">Large</button>                                                                                                                                  
+            <button class="btn btn-primary !text-lg !px-7 !py-3">Extra Large</button>                                                                                                                                
+          </div>                                                                                                                                                                                                     
+        </div>                                                                                                                                                                                                       
+                                                                                                                                                                                                                     
+        <!-- States -->                                                                                                                                                                                              
+        <div class="card">                                                                                                                                                                                           
+          <h3 class="font-semibold text-primary mb-4">States</h3>                                                                                                                                                    
+          <div class="flex flex-wrap gap-3 items-center">                                                                                                                                                            
+            <button class="btn btn-primary">Normal</button>
+            <button class="btn btn-primary" disabled>Disabled</button>                                                                                                                                               
+            <button class="btn btn-primary flex items-center gap-2" (click)="simulateLoading()">                                                                                                                     
+              @if (loading()) {                                                                                                                                                                                      
+                <span class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>                                                                                                      
+              }                                                                                                                                                                                                      
+              {{ loading() ? 'Loading...' : 'Click to Load' }}                                                                                                                                                       
+            </button>
+            <button class="btn btn-success flex items-center gap-2">                                                                                                                                                 
+              ✓ Success                                                                                                                                                                                              
+            </button>                                                                                                                                                                                                
+            <button class="btn btn-danger flex items-center gap-2">                                                                                                                                                  
+              ✕ Error                                                                                                                                                                                                
+            </button>                                                                                                                                                                                                
+          </div>                                                                                                                                                                                                     
+        </div>                                                                                                                                                                                                       
+                                                                                                                                                                                                                     
+        <!-- Icon buttons -->                                                                                                                                                                                        
+        <div class="card">                                                                                                                                                                                           
+          <h3 class="font-semibold text-primary mb-4">Icon Buttons</h3>                                                                                                                                              
+          <div class="flex flex-wrap gap-3">                                                                                                                                                                         
+            <button class="icon-action">🔍</button>                                                                                                                                                                  
+            <button class="icon-action">✏️ </button>                                                                                                                                                                  
+            <button class="icon-action">🗑</button>                                                                                                                                                                   
+            <button class="icon-action">⬇</button>                                                                                                                                                                   
+            <button class="icon-action icon-action-primary">➕</button>                                                                                                                                              
+            <button class="icon-action icon-action-danger">🗑</button>                                                                                                                                                
+          </div>                                                                                                                                                                                                     
+        </div>                                                                                                                                                                                                       
+                                                                                                                                                                                                                     
+        <!-- Full width -->                                                                                                                                                                                          
+        <div class="card">                                                                                                                                                                                           
+          <h3 class="font-semibold text-primary mb-4">Full Width & Groups</h3>                                                                                                                                       
+          <div class="space-y-3">                                                                                                                                                                                    
+            <button class="btn btn-primary w-full">Full Width Button</button>
+            <div class="flex">                                                                                                                                                                                       
+              <button class="btn btn-outline-primary flex-1 !rounded-r-none">Left</button>                                                                                                                           
+              <button class="btn btn-outline-primary flex-1 !rounded-none !border-l-0">Center</button>                                                                                                               
+              <button class="btn btn-outline-primary flex-1 !rounded-l-none !border-l-0">Right</button>                                                                                                              
+            </div>                                                                                                                                                                                                   
+          </div>
+          </div>                                                                                                                                                                                                       
+                                                                                                                                                                                                                     
       </div>                                                                                                                                                                                                         
     `,                                                                                                                                                                                                               
+    styles: [`                                
+      .btn {                                                                                                                                                                                                         
+        display: inline-flex; align-items: center; justify-content: center;
+        padding: 0.5rem 1rem; border-radius: var(--radius-md);                                                                                                                                                       
+        font-size: 0.875rem; font-weight: 500; cursor: pointer;                                                                                                                                                      
+        border: 1px solid transparent; transition: all 150ms ease;                                                                                                                                                   
+        line-height: 1.5;                                                                                                                                                                                            
+      }                                                                                                                                                                                                              
+      .btn:disabled { opacity: .5; cursor: not-allowed; }                                                                                                                                                            
+      .btn-primary        { background: var(--accent-600); color: #fff; &:hover:not(:disabled) { background: var(--accent-700); } }                                                                                  
+      .btn-success        { background: #16a34a; color: #fff; &:hover:not(:disabled) { background: #15803d; } }                                                                                                      
+      .btn-warning        { background: #d97706; color: #fff; &:hover:not(:disabled) { background: #b45309; } }                                                                                                      
+      .btn-danger         { background: #dc2626; color: #fff; &:hover:not(:disabled) { background: #b91c1c; } }                                                                                                      
+      .btn-info           { background: #2563eb; color: #fff; &:hover:not(:disabled) { background: #1d4ed8; } }                                                                                                      
+      .btn-ghost          { background: transparent; color: var(--text-secondary); &:hover:not(:disabled) { background: var(--bg-elevated); } }                                                                      
+      .btn-outline-primary{ background: transparent; color: var(--accent-600); border-color: var(--accent-600); &:hover:not(:disabled) { background: var(--accent-50); } }                                           
+      .btn-outline-danger { background: transparent; color: #dc2626; border-color: #dc2626; &:hover:not(:disabled) { background: #fee2e2; } }                                                                        
+                                                                                                                                                                                                                     
+      .icon-action {                                                                                                                                                                                                 
+        width: 36px; height: 36px; border-radius: var(--radius-md);                                                                                                                                                  
+        border: 1px solid var(--border-default); background: var(--bg-surface);                                                                                                                                      
+        cursor: pointer; display: flex; align-items: center; justify-content: center;                                                                                                                                
+        transition: all 150ms ease;                                                                                                                                                                                  
+        &:hover { background: var(--bg-elevated); }                                                                                                                                                                  
+      }                                                                                                                                                                                                              
+      .icon-action-primary { border-color: var(--accent-500); background: var(--accent-50); }                                                                                                                        
+      .icon-action-danger  { border-color: #fca5a5; background: #fee2e2; }                                                                                                                                           
+    `],                                                                                                                                                                                                              
   })                                                                                                                                                                                                                 
-  export default class ButtonsComponent {}
+  export default class ButtonsComponent {
+    loading = signal(false);                                                                                                                                                                                         
+                                                                                                                                                                                                                     
+    simulateLoading() {                                                                                                                                                                                              
+      this.loading.set(true);                                                                                                                                                                                        
+      setTimeout(() => this.loading.set(false), 2000);                                                                                                                                                               
+    }                                                                                                                                                                                                                
+  }

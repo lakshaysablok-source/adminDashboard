@@ -60,6 +60,7 @@ import { Routes } from '@angular/router';
           children: [
             { path: '404', loadComponent: () => import('./features/errors/not-found/not-found.component') },
             { path: '403', loadComponent: () => import('./features/errors/forbidden/forbidden.component') },
+            { path: '500', loadComponent: () => import('./features/errors/server-error/server-error.component') },
           ],
         },
       ],

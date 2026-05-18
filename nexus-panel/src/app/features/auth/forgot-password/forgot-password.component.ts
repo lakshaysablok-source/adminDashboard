@@ -1,19 +1,77 @@
-import { Component } from '@angular/core';                                                                                                                                                                         
-  import { RouterLink } from '@angular/router';
+import { Component, inject, signal } from '@angular/core';                                                                                                                                                         
+  import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+  import { RouterLink } from '@angular/router';                                                                                                                                                                      
+  import { MatFormFieldModule } from '@angular/material/form-field';
+  import { MatInputModule } from '@angular/material/input';                                                                                                                                                          
+  import { MatButtonModule } from '@angular/material/button';                                                                                                                                                        
                                                                                                                                                                                                                      
   @Component({                                                                                                                                                                                                       
-    selector: 'app-forgot-password',
+    selector: 'app-forgot-password',                                                                                                                                                                                 
     standalone: true,                                                                                                                                                                                                
-    imports: [RouterLink],
-    template: `           
-      <div class="animate-fade-in">
-        <h2 class="text-3xl font-bold text-primary mb-2">Forgot password?</h2>
-        <p class="text-muted mb-8">We'll send you a reset link.</p>           
-        <p class="text-secondary">Forgot password form coming soon.</p>                                                                                                                                              
-        <a routerLink="/auth/login" class="text-accent-600 hover:underline text-sm mt-4 block">
+    imports: [ReactiveFormsModule, RouterLink, MatFormFieldModule, MatInputModule, MatButtonModule],                                                                                                                 
+    template: `                                                                                                                                                                                                      
+      <div class="animate-fade-in">                                                                                                                                                                                  
+        @if (!sent()) {                       
+          <div>                                                                                                                                                                                                      
+            <div class="text-5xl mb-4">🔑</div>                                                                                                                                                                      
+            <h2 class="text-3xl font-bold text-primary mb-2">Forgot password?</h2>                                                                                                                                   
+            <p class="text-muted mb-8">                                                                                                                                                                              
+              Enter your email and we'll send you a link to reset your password.                                                                                                                                     
+            </p>                                                                                                                                                                                                     
+                                                                                                                                                                                                                     
+            <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">                                                                                                                                        
+              <mat-form-field appearance="outline">                                                                                                                                                                  
+                <mat-label>Email address</mat-label>                                                                                                                                                                 
+                <input matInput type="email" formControlName="email" placeholder="you@example.com">                                                                                                                  
+                @if (form.get('email')?.errors?.['email'] && form.get('email')?.touched) {                                                                                                                           
+                  <mat-error>Enter a valid email address</mat-error>                                                                                                                                                 
+                }                                                                                                                                                                                                    
+              </mat-form-field>                                                                                                                                                                                      
+                                                                                                                                                                                                                     
+              <button mat-flat-button class="w-full !bg-accent-600 !text-white !h-11 !text-base"                                                                                                                     
+                type="submit" [disabled]="form.invalid || loading()">                                                                                                                                                
+                {{ loading() ? 'Sending...' : 'Send Reset Link' }}                                                                                                                                                   
+              </button>                                                                                                                                                                                              
+            </form>
+            </div>                                                                                                                                                                                                     
+        } @else {                                                                                                                                                                                                    
+          <div class="text-center animate-fade-in">                                                                                                                                                                  
+            <div class="text-6xl mb-4">📬</div>                                                                                                                                                                      
+            <h2 class="text-2xl font-bold text-primary mb-2">Check your inbox</h2>                                                                                                                                   
+            <p class="text-muted mb-6">                                                                                                                                                                              
+              We sent a password reset link to<br>                                                                                                                                                                   
+              <span class="font-medium text-primary">{{ form.get('email')?.value }}</span>                                                                                                                           
+            </p>                                                                                                                                                                                                     
+            <p class="text-sm text-muted">                                                                                                                                                                           
+              Didn't receive it?                                                                                                                                                                                     
+              <button (click)="sent.set(false)"                                                                                                                                                                      
+                class="text-accent-600 hover:underline border-none bg-transparent cursor-pointer">                                                                                                                   
+                Try again                                                                                                                                                                                            
+              </button>                                                                                                                                                                                              
+            </p>                                                                                                                                                                                                     
+          </div>                                                                                                                                                                                                     
+        }                                                                                                                                                                                                            
+                                                                                                                                                                                                                     
+        <a routerLink="/auth/login" class="flex items-center gap-1 text-sm text-muted                                                                                                                                
+           hover:text-primary transition-colors mt-8">                                                                                                                                                               
           ← Back to login                                                                                                                                                                                            
         </a>                                                                                                                                                                                                         
       </div>                                                                                                                                                                                                         
     `,                                                                                                                                                                                                               
   })                                                                                                                                                                                                                 
-  export default class ForgotPasswordComponent {}
+  export default class ForgotPasswordComponent {                                                                                                                                                                     
+    private fb = inject(FormBuilder);                                                                                                                                                                                
+                                                                                                                                                                                                                     
+    sent    = signal(false);                  
+    loading = signal(false);                                                                                                                                                                                         
+                                                                                                                                                                                                                     
+    form = this.fb.group({                                                                                                                                                                                           
+      email: ['', [Validators.required, Validators.email]],
+      });                                                                                                                                                                                                              
+                                                                                                                                                                                                                     
+    submit() {                                                                                                                                                                                                       
+      if (this.form.invalid) return;                                                                                                                                                                                 
+      this.loading.set(true);                                                                                                                                                                                        
+      setTimeout(() => { this.loading.set(false); this.sent.set(true); }, 1200);                                                                                                                                     
+    }                                                                                                                                                                                                                
+  }

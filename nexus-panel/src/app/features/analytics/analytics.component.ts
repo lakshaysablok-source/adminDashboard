@@ -1,13 +1,184 @@
-import { Component } from '@angular/core';                                                                                                                                                                         
-                                            
+import { Component, OnInit, signal } from '@angular/core';                                                                                                                                                         
+  import { CommonModule } from '@angular/common';
+  import { BaseChartDirective } from 'ng2-charts';                                                                                                                                                                   
+  import { ChartData, ChartOptions } from 'chart.js';                                                                                                                                                                
+                                                                                                                                                                                                                     
   @Component({                                                                                                                                                                                                       
     selector: 'app-analytics',                                                                                                                                                                                       
-    standalone: true,         
+    standalone: true,                                                                                                                                                                                                
+    imports: [CommonModule, BaseChartDirective],                                                                                                                                                                     
     template: `                                                                                                                                                                                                      
-      <div class="animate-fade-in">                                                                                                                                                                                  
-        <h1 class="text-2xl font-bold text-primary mb-1">Analytics</h1>                                                                                                                                              
-        <p class="text-muted text-sm">Detailed analytics coming soon.</p>                                                                                                                                            
+      <div class="space-y-6 animate-fade-in">                                                                                                                                                                        
+        <div class="flex items-center justify-between">                                                                                                                                                              
+          <div>                                                                                                                                                                                                      
+            <h1 class="text-2xl font-bold text-primary">Analytics</h1>                                                                                                                                               
+            <p class="text-muted text-sm mt-1">Detailed performance metrics</p>                                                                                                                                      
+          </div>                                                                                                                                                                                                     
+          <!-- Period selector -->                                                                                                                                                                                   
+          <div class="flex gap-1 p-1 bg-elevated rounded-lg border border-border">                                                                                                                                   
+            @for (p of periods; track p) {                                                                                                                                                                           
+              <button (click)="activePeriod.set(p)"                                                                                                                                                                  
+                class="px-3 py-1.5 text-sm rounded-md transition-all"                                                                                                                                                
+                [class.bg-surface]="activePeriod() === p"                                                                                                                                                            
+                [class.shadow-card]="activePeriod() === p"                                                                                                                                                           
+                [class.font-medium]="activePeriod() === p"                                                                                                                                                           
+                [class.text-primary]="activePeriod() === p"                                                                                                                                                          
+                [class.text-muted]="activePeriod() !== p">                                                                                                                                                           
+                {{ p }}                                                                                                                                                                                              
+              </button>                                                                                                                                                                                              
+            }                                                                                                                                                                                                        
+          </div>                                                                                                                                                                                                     
+        </div>                                                                                                                                                                                                       
+                                                                                                                                                                                                                     
+        <!-- Stats Row -->                                                                                                                                                                                           
+        <div class="grid grid-cols-2 xl:grid-cols-4 gap-4">
+          @for (stat of stats; track stat.label) {                                                                                                                                                                   
+            <div class="card">                                                                                                                                                                                       
+              <p class="text-xs text-muted uppercase tracking-wide mb-1">{{ stat.label }}</p>                                                                                                                        
+              <p class="text-2xl font-bold text-primary">{{ stat.value }}</p>                                                                                                                                        
+              <p class="text-xs mt-1" [class.text-green-500]="stat.up" [class.text-red-500]="!stat.up">                                                                                                              
+                {{ stat.up ? '↑' : '↓' }} {{ stat.change }} from last period                                                                                                                                         
+              </p>                                                                                                                                                                                                   
+            </div>                                                                                                                                                                                                   
+          }                                                                                                                                                                                                          
+        </div>                                                                                                                                                                                                       
+                                                                                                                                                                                                                     
+        <!-- Main Chart -->                                                                                                                                                                                          
+        <div class="card">                
+          <div class="flex items-center justify-between mb-4">                                                                                                                                                       
+            <div>                                                                                                                                                                                                    
+              <h3 class="font-semibold text-primary">Visitor Analytics</h3>
+              <p class="text-xs text-muted">Unique visitors vs page views</p>                                                                                                                                        
+            </div>                                                                                                                                                                                                   
+          </div>                                                                                                                                                                                                     
+          <canvas baseChart [data]="barData" [options]="barOptions" type="bar" height="80"></canvas>                                                                                                                 
+        </div>                                                                                                                                                                                                       
+                                                                                                                                                                                                                     
+        <!-- Two charts -->                                                                                                                                                                                          
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">                                                                                                                                                          
+          <div class="card">                                                                                                                                                                                         
+            <h3 class="font-semibold text-primary mb-4">Bounce Rate</h3>                                                                                                                                             
+            <canvas baseChart [data]="lineData" [options]="lineOptions" type="line" height="120"></canvas>
+          </div>                                                                                                                                                                                                     
+          <div class="card">                                                                                                                                                                                         
+            <h3 class="font-semibold text-primary mb-4">Device Breakdown</h3>                                                                                                                                        
+            <canvas baseChart [data]="pieData" [options]="pieOptions" type="pie" height="120"></canvas>                                                                                                              
+            <div class="flex justify-center gap-6 mt-4">                                                                                                                                                             
+              @for (d of devices; track d.label) {                                                                                                                                                                   
+                <div class="flex items-center gap-1.5 text-sm">                                                                                                                                                      
+                  <div class="w-3 h-3 rounded-sm" [style.background]="d.color"></div>
+                  <span class="text-secondary">{{ d.label }}</span>                                                                                                                                                  
+                  <span class="font-semibold">{{ d.pct }}%</span>                                                                                                                                                    
+                </div>                                                                                                                                                                                               
+              }                                                                                                                                                                                                      
+            </div>                                                                                                                                                                                                   
+          </div>                                                                                                                                                                                                     
+        </div>                                                                                                                                                                                                       
+                                                                                                                                                                                                                     
+        <!-- Top pages table -->                                                                                                                                                                                     
+        <div class="card">                                                                                                                                                                                           
+          <h3 class="font-semibold text-primary mb-4">Top Pages</h3>                                                                                                                                                 
+          <table class="w-full text-sm">                                                                                                                                                                             
+            <thead>                                                                                                                                                                                                  
+              <tr class="border-b border-border">                                                                                                                                                                    
+                <th class="text-left pb-3 text-muted font-medium">Page</th>                                                                                                                                          
+                <th class="text-right pb-3 text-muted font-medium">Views</th>                                                                                                                                        
+                <th class="text-right pb-3 text-muted font-medium">Unique</th>                                                                                                                                       
+                <th class="text-right pb-3 text-muted font-medium">Bounce</th>                                                                                                                                       
+                <th class="text-left pb-3 text-muted font-medium pl-4">Traffic</th>                                                                                                                                  
+              </tr>                                                                                                                                                                                                  
+            </thead>                                                                                                                                                                                                 
+            <tbody>                                                                                                                                                                                                  
+              @for (page of topPages; track page.url) {                                                                                                                                                              
+                <tr class="border-b border-border/50 hover:bg-elevated transition-colors">                                                                                                                           
+                  <td class="py-3 font-medium text-accent-600">{{ page.url }}</td>                                                                                                                                   
+                  <td class="py-3 text-right">{{ page.views | number }}</td>                                                                                                                                         
+                  <td class="py-3 text-right text-muted">{{ page.unique | number }}</td>                                                                                                                             
+                  <td class="py-3 text-right" [class.text-red-500]="page.bounce > 60"                                                                                                                                
+                      [class.text-green-500]="page.bounce <= 40">                                                                                                                                                    
+                    {{ page.bounce }}%                                                                                                                                                                               
+                  </td>                                                                                                                                                                                              
+                  <td class="py-3 pl-4">                                                                                                                                                                             
+                    <div class="w-full bg-elevated rounded-full h-1.5">
+                      <div class="h-1.5 rounded-full bg-accent-500 transition-all"                                                                                                                                   
+                        [style.width]="(page.views / 8420 * 100) + '%'"></div>                                                                                                                                       
+                    </div>                                                                                                                                                                                           
+                  </td>                                                                                                                                                                                              
+                </tr>                                                                                                                                                                                                
+              }                                                                                                                                                                                                      
+            </tbody>                                                                                                                                                                                                 
+          </table>                                                                                                                                                                                                   
+        </div>                                                                                                                                                                                                       
       </div>                                                                                                                                                                                                         
-    `,                                                                                                                                                                                                               
+    `,                                    
   })                                                                                                                                                                                                                 
-  export default class AnalyticsComponent {}
+  export default class AnalyticsComponent {                                                                                                                                                                          
+    periods      = ['7D', '30D', '90D', '1Y'];                                                                                                                                                                       
+    activePeriod = signal('30D');                                                                                                                                                                                    
+                                              
+    stats = [                                                                                                                                                                                                        
+      { label: 'Total Visitors',  value: '48,295', change: '12.5%', up: true  },                                                                                                                                     
+      { label: 'Page Views',      value: '124,810',change: '8.2%',  up: true  },                                                                                                                                     
+      { label: 'Avg. Session',    value: '3m 42s', change: '0.4%',  up: false },                                                                                                                                     
+      { label: 'Bounce Rate',     value: '42.3%',  change: '2.1%',  up: false },                                                                                                                                     
+    ];                                                                                                                                                                                                               
+                                                                                                                                                                                                                     
+    devices = [                                                                                                                                                                                                      
+      { label: 'Desktop', pct: 58, color: '#6366f1' },                                                                                                                                                               
+      { label: 'Mobile',  pct: 34, color: '#06b6d4' },                                                                                                                                                               
+      { label: 'Tablet',  pct: 8,  color: '#f59e0b' },                                                                                                                                                               
+    ];                                                                                                                                                                                                               
+                                                                                                                                                                                                                     
+    topPages = [                                                                                                                                                                                                     
+      { url: '/dashboard',  views: 8420, unique: 6210, bounce: 32 },                                                                                                                                                 
+      { url: '/analytics',  views: 5830, unique: 4120, bounce: 38 },                                                                                                                                                 
+      { url: '/products',   views: 4290, unique: 3560, bounce: 55 },                                                                                                                                                 
+      { url: '/settings',   views: 3100, unique: 2890, bounce: 45 },
+      { url: '/profile',    views: 2740, unique: 2100, bounce: 28 },                                                                                                                                                 
+    ];                                                                                                                                                                                                               
+                                                                                                                                                                                                                     
+    barData: ChartData<'bar'> = {                                                                                                                                                                                    
+      labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],                                                                                                                             
+      datasets: [                                                                                                                                                                                                    
+        { label: 'Visitors',   data: [4200,5800,4900,7200,6500,8900,7600,9800,8200,10400,9500,11200], backgroundColor: 'rgba(99,102,241,.8)' },                                                                      
+        { label: 'Page Views', data: [8400,11600,9800,14400,13000,17800,15200,19600,16400,20800,19000,22400], backgroundColor: 'rgba(6,182,212,.8)' },
+      ],                                                                                                                                                                                                             
+    };                                                                                                                                                                                                               
+                                                                                                                                                                                                                     
+    barOptions: ChartOptions<'bar'> = {                                                                                                                                                                              
+      responsive: true,                                                                                                                                                                                              
+      plugins: { legend: { position: 'top' } },                                                                                                                                                                      
+      scales: { y: { beginAtZero: true } },                                                                                                                                                                          
+    };                                        
+                                                                                                                                                                                                                     
+    lineData: ChartData<'line'> = {                                                                                                                                                                                  
+      labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],                                                                                                                                                           
+      datasets: [{                                                                                                                                                                                                   
+        label: 'Bounce Rate %',                                                                                                                                                                                      
+        data: [45, 52, 38, 61, 43, 35, 42],   
+        borderColor: '#f59e0b',                                                                                                                                                                                      
+        backgroundColor: 'rgba(245,158,11,.1)',                                                                                                                                                                      
+        fill: true,                                                                                                                                                                                                  
+        tension: 0.4,                                                                                                                                                                                                
+      }],                                                                                                                                                                                                            
+    };                                                                                                                                                                                                               
+                                                                                                                                                                                                                     
+    lineOptions: ChartOptions<'line'> = {                                                                                                                                                                            
+      responsive: true,                                                                                                                                                                                              
+      plugins: { legend: { display: false } },                                                                                                                                                                       
+      scales: { y: { min: 0, max: 100 } },                                                                                                                                                                           
+    };
+    pieData: ChartData<'pie'> = {                                                                                                                                                                                    
+      labels: ['Desktop', 'Mobile', 'Tablet'],                                                                                                                                                                       
+      datasets: [{                                                                                                                                                                                                   
+        data: [58, 34, 8],                                                                                                                                                                                           
+        backgroundColor: ['#6366f1', '#06b6d4', '#f59e0b'],
+        borderWidth: 0,                                                                                                                                                                                              
+      }],                                                                                                                                                                                                            
+    };                                                                                                                                                                                                               
+                                                                                                                                                                                                                     
+    pieOptions: ChartOptions<'pie'> = {                                                                                                                                                                              
+      responsive: true,                                                                                                                                                                                              
+      plugins: { legend: { display: false } },                                                                                                                                                                       
+    };                                                                                                                                                                                                               
+  }
