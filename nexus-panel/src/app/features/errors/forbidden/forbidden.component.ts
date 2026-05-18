@@ -1,0 +1,20 @@
+import { Component } from '@angular/core';                                                                                                                                                                         
+  import { RouterLink } from '@angular/router';
+                                                                                                                                                                                                                     
+  @Component({                                                                                                                                                                                                       
+    selector: 'app-forbidden',                                                                                                                                                                                       
+    standalone: true,                                                                                                                                                                                                
+    imports: [RouterLink],                                                                                                                                                                                           
+    template: `                                                                                                                                                                                                      
+      <div class="flex flex-col items-center justify-center min-h-96 text-center animate-fade-in">                                                                                                                   
+        <div class="text-8xl font-black text-red-500 mb-4">403</div>                                                                                                                                                 
+        <h2 class="text-2xl font-bold text-primary mb-2">Access Forbidden</h2>                                                                                                                                       
+        <p class="text-muted mb-6">You don't have permission to view this page.</p>                                                                                                                                  
+        <a routerLink="/dashboard"                                                                                                                                                                                   
+          class="px-6 py-2.5 bg-accent-600 text-white rounded-lg hover:bg-accent-700 transition-colors text-sm font-medium">                                                                                         
+          Go to Dashboard                                                                                                                                                                                            
+        </a>                                                                                                                                                                                                         
+      </div>                                                                                                                                                                                                         
+    `,                                                                                                                                                                                                               
+  })                                                                                                                                                                                                                 
+  export default class ForbiddenComponent {}

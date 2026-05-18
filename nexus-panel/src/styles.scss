@@ -1,19 +1,212 @@
-
-// Custom Theming for Angular Material
-// For more information: https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
 
-html {
-  @include mat.theme((
-    color: (
-      theme-type: light,
-      primary: mat.$azure-palette,
-      tertiary: mat.$blue-palette,
-    ),
-    typography: Roboto,
-    density: 0,
-  ));
-}/* You can add global styles to this file, and also import other style files */
+  // ─── CSS Variables ──────────────────────────────────────
+  :root {
+    // Light mode surfaces
+    --bg-base:          #f1f5f9;
+    --bg-surface:       #ffffff;
+    --bg-elevated:      #f8fafc;
+    --border-default:   #e2e8f0;
+    --text-primary:     #0f172a;
+    --text-secondary:   #475569;
+    --text-muted:       #94a3b8;
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+    // Default accent: Indigo
+    --accent-50:        #eef2ff;
+    --accent-100:       #e0e7ff;
+    --accent-500:       #6366f1;
+    --accent-600:       #4f46e5;
+    --accent-700:       #4338ca;
+    --accent-foreground:#ffffff;
+
+    // Semantic
+    --success:   #22c55e;
+    --warning:   #f59e0b;
+    --danger:    #ef4444;
+    --info:      #3b82f6;
+
+    // Layout
+    --sidebar-width:     260px;
+    --sidebar-collapsed: 72px;
+    --header-height:     64px;
+    --radius-sm:   0.375rem;
+    --radius-md:   0.5rem;
+    --radius-lg:   0.75rem;
+    --radius-xl:   1rem;
+    --shadow-card: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+    --shadow-card-hover: 0 4px 12px rgba(0,0,0,.1);
+  }
+
+  // ─── Dark Mode ───────────────────────────────────────────
+  [data-mode="dark"] {
+    --bg-base:        #0f172a;
+    --bg-surface:     #1e293b;
+    --bg-elevated:    #334155;
+    --border-default: #334155;
+    --text-primary:   #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted:     #64748b;
+    --shadow-card:    0 1px 3px rgba(0,0,0,.3), 0 1px 2px rgba(0,0,0,.2);
+  }
+
+  // ─── Accent Colors ───────────────────────────────────────
+  [data-accent="violet"] {
+    --accent-50:  #f5f3ff;
+    --accent-100: #ede9fe;
+    --accent-500: #8b5cf6;
+    --accent-600: #7c3aed;
+    --accent-700: #6d28d9;
+  }
+  [data-accent="cyan"] {
+    --accent-50:  #ecfeff;
+    --accent-100: #cffafe;
+    --accent-500: #06b6d4;
+    --accent-600: #0891b2;
+    --accent-700: #0e7490;
+  }
+  [data-accent="rose"] {
+    --accent-50:  #fff1f2;
+    --accent-100: #ffe4e6;
+    --accent-500: #f43f5e;
+    --accent-600: #e11d48;
+    --accent-700: #be123c;
+  }
+  [data-accent="amber"] {
+    --accent-50:  #fffbeb;
+    --accent-100: #fef3c7;
+    --accent-500: #f59e0b;
+    --accent-600: #d97706;
+    --accent-700: #b45309;
+  }
+  [data-accent="emerald"] {
+    --accent-50:  #ecfdf5;
+    --accent-100: #d1fae5;
+    --accent-500: #10b981;
+    --accent-600: #059669;
+    --accent-700: #047857;
+  }
+
+  // ─── Animations ──────────────────────────────────────────
+  @keyframes shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position:  200% 0; }
+  }
+  @keyframes slideInUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  .animate-slide-in { animation: slideInUp 0.3s ease forwards; }
+  .animate-fade-in  { animation: fadeIn 0.2s ease forwards; }
+
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      var(--bg-elevated) 25%,
+      var(--border-default) 50%,
+      var(--bg-elevated) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: var(--radius-md);
+  }
+
+  // ─── Global Base ─────────────────────────────────────────
+  * { box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  // ─── Layout Shell ────────────────────────────────────────
+  .layout-wrapper {
+    display: grid;
+    grid-template-columns: var(--sidebar-width) 1fr;
+    min-height: 100vh;
+    transition: grid-template-columns 300ms cubic-bezier(0.4,0,0.2,1);
+
+    &.collapsed {
+      grid-template-columns: var(--sidebar-collapsed) 1fr;
+    }
+  }
+
+  .main-content {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .page-content {
+    flex: 1;
+    padding: 1.5rem;
+  }
+
+  // ─── Angular Material Overrides ──────────────────────────
+  .mat-mdc-form-field {
+    width: 100%;
+  }
+
+  .mat-mdc-card {
+    background-color: var(--bg-surface) !important;
+    border: 1px solid var(--border-default) !important;
+    border-radius: var(--radius-xl) !important;
+    box-shadow: var(--shadow-card) !important;
+  }
+
+  // View transitions
+  ::view-transition-old(root) {
+    animation: 180ms ease-out fadeOut;
+  }
+  ::view-transition-new(root) {
+    animation: 180ms ease-in fadeIn;
+  }
+  @keyframes fadeOut {
+    to { opacity: 0; }
+  }
+
+  // ─── Utility Classes ─────────────────────────────────────
+  .card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-card);
+    padding: 1.5rem;
+    transition: box-shadow 200ms ease;
+
+    &:hover { box-shadow: var(--shadow-card-hover); }
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.125rem 0.625rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.5;
+
+    &.badge-success { background: #dcfce7; color: #15803d; }
+    &.badge-danger  { background: #fee2e2; color: #b91c1c; }
+    &.badge-warning { background: #fef9c3; color: #854d0e; }
+    &.badge-info    { background: #dbeafe; color: #1d4ed8; }
+    &.badge-accent  { background: var(--accent-100); color: var(--accent-700); }
+  }
+
+  [data-mode="dark"] {
+    .badge-success { background: #14532d; color: #86efac; }
+    .badge-danger  { background: #7f1d1d; color: #fca5a5; }
+    .badge-warning { background: #713f12; color: #fde68a; }
+    .badge-info    { background: #1e3a5f; color: #93c5fd; }
+  }

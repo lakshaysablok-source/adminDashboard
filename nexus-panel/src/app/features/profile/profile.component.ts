@@ -1,0 +1,13 @@
+import { Component } from '@angular/core';                                                                                                                                                                         
+                                                                                                                                                                                                                     
+  @Component({                                                                                                                                                                                                       
+    selector: 'app-profile',                                                                                                                                                                                         
+    standalone: true,       
+    template: `                                                                                                                                                                                                      
+      <div class="animate-fade-in">                                                                                                                                                                                  
+        <h1 class="text-2xl font-bold text-primary mb-1">Profile</h1>                                                                                                                                                
+        <p class="text-muted text-sm">Profile page coming soon.</p>                                                                                                                                                  
+      </div>                                                                                                                                                                                                         
+    `,                                                                                                                                                                                                               
+  })                                                                                                                                                                                                                 
+  export default class ProfileComponent {}
