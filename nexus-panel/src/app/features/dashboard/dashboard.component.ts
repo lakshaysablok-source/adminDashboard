@@ -52,12 +52,13 @@ import { Component, inject, OnInit, signal } from '@angular/core';
               <span class="badge badge-accent">2024</span>
             </div>
             @if (revenueChart()) {
-              <canvas baseChart
-                [data]="revenueChart()!"
-                [options]="lineChartOptions"
-                type="line"
-                height="100">
-              </canvas>
+              <div class="chart-container" style="height:240px">
+                <canvas baseChart
+                  [data]="revenueChart()!"
+                  [options]="lineChartOptions"
+                  type="line">
+                </canvas>
+              </div>
             } @else {
               <div class="skeleton h-40 w-full"></div>
             }
@@ -70,12 +71,13 @@ import { Component, inject, OnInit, signal } from '@angular/core';
               <p class="text-xs text-muted">By channel this month</p>
             </div>
             @if (trafficChart()) {
-              <canvas baseChart
-                [data]="trafficChart()!"
-                [options]="doughnutOptions"
-                type="doughnut"
-                height="180">
-              </canvas>
+              <div class="chart-container" style="height:200px">
+                <canvas baseChart
+                  [data]="trafficChart()!"
+                  [options]="doughnutOptions"
+                  type="doughnut">
+                </canvas>
+              </div>
               <div class="mt-4 space-y-2">
                 @for (source of trafficSources(); track source.label) {
                   <div class="flex items-center justify-between text-sm">
@@ -145,6 +147,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 
     lineChartOptions: ChartConfiguration<'line'>['options'] = {
       responsive: true,
+      maintainAspectRatio: false,
       plugins: { legend: { position: 'top' } },
       scales: { y: { beginAtZero: false } },
       elements: { line: { tension: 0.4 } },
@@ -152,6 +155,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 
     doughnutOptions: ChartConfiguration<'doughnut'>['options'] = {
       responsive: true,
+      maintainAspectRatio: false,
       plugins: { legend: { display: false } },
       cutout: '70%',
     };

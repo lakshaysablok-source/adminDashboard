@@ -15,35 +15,35 @@ export interface NavItem {
     {
       label: 'MAIN MENU',
       items: [
-        { label: 'Dashboard', icon: 'layout-dashboard', route: '/dashboard' },
-        { label: 'Analytics',  icon: 'bar-chart-2',     route: '/analytics', badge: 'NEW' },
+        { label: 'Dashboard', icon: 'dashboard',  route: '/dashboard' },
+      { label: 'Analytics', icon: 'bar_chart',  route: '/analytics', badge: 'NEW' },
       ],
     },
     {
       label: 'COMPONENTS',
       items: [
         {
-          label: 'Tables', icon: 'table',
+          label: 'Tables', icon: 'table_chart',
           children: [
-            { label: 'Basic Table',    icon: 'list',         route: '/tables/basic' },
-            { label: 'Advanced Table', icon: 'table-2',      route: '/tables/advanced' },
+          { label: 'Basic Table',    icon: 'list',          route: '/tables/basic' },
+          { label: 'Advanced Table', icon: 'filter_list',   route: '/tables/advanced' },
           ],
         },
         {
-          label: 'Forms', icon: 'file-text',
+          label: 'Forms', icon: 'description',
           children: [
-            { label: 'Form Elements',   icon: 'square',        route: '/forms/elements' },
-            { label: 'Form Validation', icon: 'check-square',  route: '/forms/validation' },
+            { label: 'Form Elements',   icon: 'input',         route: '/forms/elements' },
+          { label: 'Form Validation', icon: 'check_circle',  route: '/forms/validation' },
           ],
         },
-        { label: 'Charts',      icon: 'pie-chart',  route: '/charts' },
+        { label: 'Charts',      icon: 'donut_large',   route: '/charts' },
         {
-          label: 'UI Elements', icon: 'layers',
+          label: 'UI Elements', icon: 'widgets',
           children: [
-            { label: 'Buttons',        icon: 'mouse-pointer-click', route: '/ui/buttons' },
-            { label: 'Badges & Chips', icon: 'tag',                 route: '/ui/badges' },
-            { label: 'Cards',          icon: 'credit-card',         route: '/ui/cards' },
-            { label: 'Modals',         icon: 'maximize-2',          route: '/ui/modals' },
+            { label: 'Buttons',        icon: 'smart_button',  route: '/ui/buttons' },
+          { label: 'Badges & Chips', icon: 'label',         route: '/ui/badges' },
+          { label: 'Cards',          icon: 'credit_card',   route: '/ui/cards' },
+          { label: 'Modals',         icon: 'open_in_new',   route: '/ui/modals' },
           ],
         },
       ],
@@ -51,15 +51,16 @@ export interface NavItem {
     {
       label: 'ACCOUNT',
       items: [
-        { label: 'Profile',  icon: 'user',     route: '/profile' },
+        { label: 'Profile',  icon: 'person',   route: '/profile' },
         { label: 'Settings', icon: 'settings', route: '/settings' },
       ],
     },
     {
       label: 'PAGES',
       items: [
-        { label: '404 Not Found', icon: 'alert-circle', route: '/errors/404' },
-        { label: '403 Forbidden', icon: 'lock',         route: '/errors/403' },
+        { label: '404 Not Found', icon: 'search_off', route: '/errors/404' },
+      { label: '403 Forbidden', icon: 'lock',       route: '/errors/403' },
+      { label: '500 Error',     icon: 'error',      route: '/errors/500' },
       ],
     },
   ];
