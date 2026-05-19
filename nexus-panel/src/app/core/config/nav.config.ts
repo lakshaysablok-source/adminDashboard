@@ -56,6 +56,16 @@ export const NAV_CONFIG: NavGroup[] = [
     ],
   },
   {
+    label: 'APPS',
+    items: [
+      { label: 'Kanban',       icon: 'view_kanban',  route: '/kanban'       },
+      { label: 'Calendar',     icon: 'calendar_month', route: '/calendar'   },
+      { label: 'Chat',         icon: 'chat',         route: '/chat'         },
+      { label: 'Invoice',      icon: 'receipt_long', route: '/invoice'      },
+      { label: 'File Manager', icon: 'folder_open',  route: '/file-manager' },
+    ],
+  },
+  {
     label: 'ACCOUNT',
     items: [
       { label: 'Profile',  icon: 'person',   route: '/profile' },
