@@ -1,13 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-
-interface LineItem {
-  description: string;
-  qty: number;
-  rate: number;
-}
 
 @Component({
   selector: 'app-invoice',

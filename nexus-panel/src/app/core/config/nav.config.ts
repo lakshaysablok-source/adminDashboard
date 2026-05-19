@@ -49,13 +49,6 @@ export const NAV_CONFIG: NavGroup[] = [
     ],
   },
   {
-    label: 'ADVANCED',
-    items: [
-      { label: 'Diagrams',  icon: 'account_tree', route: '/diagrams', badge: 'NEW' },
-      { label: 'Maps',      icon: 'map',          route: '/maps',     badge: 'NEW' },
-    ],
-  },
-  {
     label: 'APPS',
     items: [
       { label: 'Kanban',       icon: 'view_kanban',  route: '/kanban'       },
@@ -63,6 +56,22 @@ export const NAV_CONFIG: NavGroup[] = [
       { label: 'Chat',         icon: 'chat',         route: '/chat'         },
       { label: 'Invoice',      icon: 'receipt_long', route: '/invoice'      },
       { label: 'File Manager', icon: 'folder_open',  route: '/file-manager' },
+    ],
+  },
+  {
+    label: 'E-COMMERCE',
+    items: [
+      { label: 'Products',       icon: 'inventory_2',  route: '/ecommerce/products'       },
+      { label: 'Product Detail', icon: 'edit_note',    route: '/ecommerce/product-detail' },
+      { label: 'Orders',         icon: 'shopping_bag', route: '/ecommerce/orders'         },
+      { label: 'Order Detail',   icon: 'receipt_long', route: '/ecommerce/order-detail'   },
+    ],
+  },
+  {
+    label: 'ADVANCED',
+    items: [
+      { label: 'Diagrams',  icon: 'account_tree', route: '/diagrams', badge: 'NEW' },
+      { label: 'Maps',      icon: 'map',          route: '/maps',     badge: 'NEW' },
     ],
   },
   {
