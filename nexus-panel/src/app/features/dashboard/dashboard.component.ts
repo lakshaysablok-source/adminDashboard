@@ -49,7 +49,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
                 <h3 class="font-semibold text-primary">Revenue Overview</h3>
                 <p class="text-xs text-muted">Current year vs previous year</p>
               </div>
-              <span class="badge badge-accent">2024</span>
+              <span class="badge badge-accent">2026</span>
             </div>
             @if (revenueChart()) {
               <div class="chart-container" style="height:240px">
@@ -174,8 +174,8 @@ import { Component, inject, OnInit, signal } from '@angular/core';
         this.revenueChart.set({
           labels: d.labels,
           datasets: [
-            { label: '2024', data: d.current,  borderColor: '#6366f1', backgroundColor: 'rgba(99,102,241,.1)', fill: true },
-            { label: '2023', data: d.previous, borderColor: '#94a3b8', backgroundColor: 'transparent',          borderDash: [5,5] },
+            { label: '2026', data: d.current,  borderColor: '#6366f1', backgroundColor: 'rgba(99,102,241,.1)', fill: true },
+            { label: '2025', data: d.previous, borderColor: '#94a3b8', backgroundColor: 'transparent',          borderDash: [5,5] },
           ],
         });
       });

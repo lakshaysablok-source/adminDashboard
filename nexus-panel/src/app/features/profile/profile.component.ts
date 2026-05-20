@@ -58,7 +58,7 @@ import { AuthService } from '../../core/services/auth.service';
               <div class="flex items-center gap-4 mt-2 text-xs" style="color:var(--text-muted)">
                 <span>📍 San Francisco, CA</span>
                 <span>🔗 nexuspanel.dev</span>
-                <span>📅 Joined Jan 2024</span>
+                <span>📅 Joined Jan 2026</span>
               </div>
             </div>
 
@@ -243,10 +243,10 @@ export default class ProfileComponent {
   ];
 
   socialLinks = [
-    { icon: '🐙', label: 'github.com/alexjohnson' },
-    { icon: '🐦', label: 'twitter.com/alexjohnson' },
-    { icon: '💼', label: 'linkedin.com/in/alexjohnson' },
-    { icon: '🌐', label: 'alexjohnson.dev' },
+    { icon: '🐙', label: 'github.com/lakshay-sablok' },
+    { icon: '🐦', label: 'twitter.com/lakshay_sablok' },
+    { icon: '💼', label: 'linkedin.com/in/lakshay-sablok' },
+    { icon: '🌐', label: 'nexuspanel.dev' },
   ];
 
   activity = [

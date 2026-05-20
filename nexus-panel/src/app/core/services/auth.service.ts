@@ -9,11 +9,11 @@ interface DemoUser extends User {
 const DEMO_USERS: DemoUser[] = [
   {
     id: '1',
-    name: 'Alex Johnson',
-    email: 'admin@nexuspanel.com',
+    name: 'Lakshay Sablok',
+    email: 'lakshay@nexuspanel.com',
     password: 'admin123',
     role: 'admin',
-    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Alex',
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Lakshay',
   },
   {
     id: '2',

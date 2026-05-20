@@ -75,6 +75,13 @@ export const NAV_CONFIG: NavGroup[] = [
     ],
   },
   {
+    label: 'USER MANAGEMENT',
+    items: [
+      { label: 'Users',       icon: 'group',              route: '/users'       },
+      { label: 'Roles',       icon: 'admin_panel_settings', route: '/users/roles' },
+    ],
+  },
+  {
     label: 'ACCOUNT',
     items: [
       { label: 'Profile',  icon: 'person',   route: '/profile' },
@@ -84,9 +91,19 @@ export const NAV_CONFIG: NavGroup[] = [
   {
     label: 'PAGES',
     items: [
-      { label: '404 Not Found', icon: 'search_off', route: '/errors/404' },
-      { label: '403 Forbidden', icon: 'lock',       route: '/errors/403' },
-      { label: '500 Error',     icon: 'error',      route: '/errors/500' },
+      { label: 'Notifications', icon: 'notifications', route: '/notifications' },
+      { label: 'Activity Feed', icon: 'history',       route: '/activity'      },
+      { label: 'Pricing',       icon: 'local_offer',   route: '/pricing'       },
+      { label: '404 Not Found', icon: 'search_off',    route: '/errors/404'    },
+      { label: '403 Forbidden', icon: 'lock',          route: '/errors/403'    },
+      { label: '500 Error',     icon: 'error',         route: '/errors/500'    },
+    ],
+  },
+  {
+    label: 'BLOG',
+    items: [
+      { label: 'All Posts',    icon: 'article',     route: '/blog/posts'    },
+      { label: 'New Post',     icon: 'edit_note',   route: '/blog/new-post' },
     ],
   },
 ];
