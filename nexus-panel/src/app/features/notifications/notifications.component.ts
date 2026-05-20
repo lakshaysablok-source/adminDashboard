@@ -46,7 +46,7 @@ interface Notification {
         <div class="flex items-center gap-3 flex-wrap justify-between">
           <div class="flex gap-1">
             @for (tab of tabs; track tab.value) {
-              <button class="tab-btn" [class.active]="activeTab()===tab.value" (click)="activeTab.set($any(tab.value))">
+              <button class="tab-btn" [class.active]="activeTab()===tab.value" (click)="activeTab.set(tab.value)">
                 {{ tab.label }}
                 @if (tab.value === 'unread' && unreadCount() > 0) {
                   <span class="tab-badge">{{ unreadCount() }}</span>
@@ -172,7 +172,7 @@ export default class NotificationsComponent {
   activeTab  = signal<'all' | 'unread' | 'mentions'>('all');
   typeFilter = signal<string>('all');
 
-  tabs = [
+  tabs: { label: string; value: 'all' | 'unread' | 'mentions' }[] = [
     { label: 'All',      value: 'all'      },
     { label: 'Unread',   value: 'unread'   },
     { label: 'Mentions', value: 'mentions' },
@@ -238,7 +238,8 @@ export default class NotificationsComponent {
     this.notifications.update(list => list.map(n => ({ ...n, read: true })));
   }
 
-  dismiss(n: Notification) {this.notifications.update(list => list.filter(x => x.id !== n.id));
+  dismiss(n: Notification) {
+    this.notifications.update(list => list.filter(x => x.id !== n.id));
   }
 
   clearAll() {

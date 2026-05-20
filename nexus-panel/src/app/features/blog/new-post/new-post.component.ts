@@ -1,7 +1,7 @@
 import { Component, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
-import { ReactiveFormsModule, FormBuilder, Validators, FormGroup, FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule, FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
@@ -73,7 +73,7 @@ import { MatIconModule } from '@angular/material/icon';
           <!-- Title -->
           <div style="background:var(--bg-card);border:1px solid var(--border-default);border-radius:14px;padding:16px">
             <label style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:8px">Title *</label>
-            <input [formControl]="$any(form.controls['title'])" placeholder="Enter a compelling title…"
+            <input [formControl]="c['title']" placeholder="Enter a compelling title…"
                    style="width:100%;font-size:20px;font-weight:700;color:var(--text-primary);border:none;background:transparent;outline:none;box-sizing:border-box;font-family:inherit"/>
             <div style="margin-top:8px;display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted)">
               <span>Slug: /blog/{{ slug() }}</span>
@@ -84,7 +84,7 @@ import { MatIconModule } from '@angular/material/icon';
           <!-- Excerpt -->
           <div style="background:var(--bg-card);border:1px solid var(--border-default);border-radius:14px;padding:16px">
             <label style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:8px">Excerpt *</label>
-            <textarea [formControl]="$any(form.controls['excerpt'])" rows="3" placeholder="A short summary shown in post cards and SEO…"
+            <textarea [formControl]="c['excerpt']" rows="3" placeholder="A short summary shown in post cards and SEO…"
                       style="width:100%;font-size:14px;color:var(--text-primary);border:none;background:transparent;outline:none;resize:vertical;box-sizing:border-box;line-height:1.6;font-family:inherit"></textarea>
             <div style="text-align:right;font-size:11px" [style.color]="excerptLen() > 200 ? '#ef4444' : 'var(--text-muted)'">{{ excerptLen() }}/200</div>
           </div>
@@ -105,7 +105,7 @@ import { MatIconModule } from '@angular/material/icon';
                 </button>
               }
             </div>
-            <textarea [formControl]="$any(form.controls['content'])" #bodyRef rows="18" placeholder="Write your article content here…&#10;&#10;Use the toolbar above for formatting hints, or write plain Markdown."
+            <textarea [formControl]="c['content']" #bodyRef rows="18" placeholder="Write your article content here…&#10;&#10;Use the toolbar above for formatting hints, or write plain Markdown."
                       style="width:100%;padding:16px;font-size:14px;color:var(--text-primary);border:none;background:transparent;outline:none;resize:vertical;box-sizing:border-box;line-height:1.8;font-family:inherit"></textarea>
             <div style="padding:8px 14px;border-top:1px solid var(--border-default);display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted)">
               <span>{{ wordCount() }} words &bull; ~{{ readTime() }} min read</span>
@@ -122,7 +122,7 @@ import { MatIconModule } from '@angular/material/icon';
             <h3 style="font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">Publish Settings</h3>
             <div style="display:flex;flex-direction:column;gap:10px">
               <label style="font-size:12px;font-weight:600;color:var(--text-secondary);display:block">Status</label>
-              <select [formControl]="$any(form.controls['status'])"
+              <select [formControl]="c['status']"
                       style="width:100%;padding:8px 12px;border-radius:9px;border:1px solid var(--border-default);background:var(--bg-elevated);color:var(--text-primary);font-size:13px;outline:none">
                 <option value="draft">Draft</option>
                 <option value="published">Published</option>
@@ -131,7 +131,7 @@ import { MatIconModule } from '@angular/material/icon';
               @if (form.value.status === 'scheduled') {
                 <div>
                   <label style="font-size:12px;font-weight:600;color:var(--text-secondary);display:block;margin-bottom:6px">Publish Date</label>
-                  <input type="date" [formControl]="$any(form.controls['scheduleDate'])"
+                  <input type="date" [formControl]="c['scheduleDate']"
                          style="width:100%;padding:8px 12px;border-radius:9px;border:1px solid var(--border-default);background:var(--bg-elevated);color:var(--text-primary);font-size:13px;outline:none;box-sizing:border-box"/>
                 </div>
               }
@@ -142,7 +142,7 @@ import { MatIconModule } from '@angular/material/icon';
           <div style="background:var(--bg-card);border:1px solid var(--border-default);border-radius:14px;padding:16px">
             <h3 style="font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">Categorization</h3>
             <label style="font-size:12px;font-weight:600;color:var(--text-secondary);display:block;margin-bottom:6px">Category *</label>
-            <select [formControl]="$any(form.controls['category'])"
+            <select [formControl]="c['category']"
                     style="width:100%;padding:8px 12px;border-radius:9px;border:1px solid var(--border-default);background:var(--bg-elevated);color:var(--text-primary);font-size:13px;outline:none;margin-bottom:12px">
               <option value="">Select category…</option>
               @for (c of categories; track c) {
@@ -189,7 +189,8 @@ import { MatIconModule } from '@angular/material/icon';
           </div>
 
           <!-- Checklist -->
-          <div style="background:var(--bg-card);border:1px solid var(--border-default);border-radius:14px;padding:16px"><h3 style="font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">Pre-publish Checklist</h3>
+          <div style="background:var(--bg-card);border:1px solid var(--border-default);border-radius:14px;padding:16px">
+            <h3 style="font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">Pre-publish Checklist</h3>
             <div style="display:flex;flex-direction:column;gap:8px">
               @for (item of checklist(); track item.label) {
                 <div style="display:flex;align-items:center;gap:8px">
@@ -230,6 +231,7 @@ export default class NewPostComponent {
   saved = signal(false);
   savedStatus = signal<'draft' | 'published'>('draft');
   Math = Math;
+  get c(): Record<string, FormControl> { return this.form.controls as unknown as Record<string, FormControl>; }
 
   categories = ['Design', 'Development', 'Marketing', 'Business', 'Technology', 'Tutorial'];
 
@@ -309,12 +311,12 @@ export default class NewPostComponent {
   removeTag(tag: string) { this.selectedTags.update(tags => tags.filter(t => t !== tag)); }
 
   insertText(text: string) {
-    const ctrl = this.form.controls['content'];
+    const ctrl = this.c['content'];
     ctrl.setValue((ctrl.value || '') + text);
   }
 
   wrapText(wrap: string) {
-    const ctrl = this.form.controls['content'];
+    const ctrl = this.c['content'];
     ctrl.setValue((ctrl.value || '') + wrap + 'text' + wrap);
   }
 

@@ -91,12 +91,17 @@ export const NAV_CONFIG: NavGroup[] = [
   {
     label: 'PAGES',
     items: [
-      { label: 'Notifications', icon: 'notifications', route: '/notifications' },
-      { label: 'Activity Feed', icon: 'history',       route: '/activity'      },
-      { label: 'Pricing',       icon: 'local_offer',   route: '/pricing'       },
-      { label: '404 Not Found', icon: 'search_off',    route: '/errors/404'    },
-      { label: '403 Forbidden', icon: 'lock',          route: '/errors/403'    },
-      { label: '500 Error',     icon: 'error',         route: '/errors/500'    },
+      { label: 'Notifications', icon: 'notifications',  route: '/notifications' },
+      { label: 'Activity Feed', icon: 'history',        route: '/activity'      },
+      { label: 'Pricing',       icon: 'local_offer',    route: '/pricing'       },
+      { label: 'FAQ',           icon: 'help_outline',   route: '/faq'           },
+      { label: 'Documentation', icon: 'menu_book',      route: '/docs'          },
+      { label: 'Landing Page',  icon: 'web',            route: '/landing'       },
+      { label: 'Coming Soon',   icon: 'rocket_launch',  route: '/coming-soon'   },
+      { label: 'Maintenance',   icon: 'build',          route: '/maintenance'   },
+      { label: '404 Not Found', icon: 'search_off',     route: '/errors/404'    },
+      { label: '403 Forbidden', icon: 'lock',           route: '/errors/403'    },
+      { label: '500 Error',     icon: 'error',          route: '/errors/500'    },
     ],
   },
   {

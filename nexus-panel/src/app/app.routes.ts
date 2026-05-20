@@ -3,7 +3,10 @@ import { authGuard } from './core/guards/auth.guard';
 import { noAuthGuard } from './core/guards/no-auth.guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+  { path: '',             redirectTo: 'dashboard', pathMatch: 'full' },
+  { path: 'landing',      loadComponent: () => import('./features/landing/landing.component') },
+  { path: 'coming-soon',  loadComponent: () => import('./features/coming-soon/coming-soon.component') },
+  { path: 'maintenance',  loadComponent: () => import('./features/maintenance/maintenance.component') },
 
   // Auth shell (no sidebar)
   {
@@ -72,6 +75,8 @@ export const routes: Routes = [
       { path: 'blog/new-post',    loadComponent: () => import('./features/blog/new-post/new-post.component') },
       { path: 'diagrams', loadComponent: () => import('./features/diagrams/diagrams.component'),    data: { breadcrumb: 'Diagrams' } },
       { path: 'maps',     loadComponent: () => import('./features/maps/maps.component'),            data: { breadcrumb: 'Maps' } },
+      { path: 'faq',      loadComponent: () => import('./features/faq/faq.component') },
+      { path: 'docs',     loadComponent: () => import('./features/docs/docs.component') },
       { path: 'profile',  loadComponent: () => import('./features/profile/profile.component') },
       { path: 'settings', loadComponent: () => import('./features/settings/settings.component') },
       {
